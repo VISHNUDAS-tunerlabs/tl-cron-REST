@@ -46,4 +46,13 @@ const defineJob=async(job,jobs,agenda)=>{
     return " hey job defined";
 };
 
-module.exports={defineJob,agenda,jobsReady};
+//scheduling job for every given interval
+const scheduleEvery=async(req,agenda)=>{
+  const interval=req.body.interval;
+  const name=req.body.name;
+  await agenda.every(interval,name);
+  return "Repeating Job Scheduled"
+}; 
+
+
+module.exports={defineJob,agenda,jobsReady,scheduleEvery};
