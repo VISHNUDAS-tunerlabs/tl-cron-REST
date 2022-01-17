@@ -20,4 +20,14 @@ const verifydata=async(job,jobs)=>{
     }
 };
 
-module.exports={checkRequestBodyJobDefinition,verifydata};
+//checking req body format for job instance creation
+const checkRequestBodyJobInstance=async(job)=>{
+    const {name,interval}=job;
+    if(!name||!interval){
+        return {result:"red",message:"Miss match in request body"};
+    }else{
+        return {result:"green",message:"success"};
+    }
+};
+
+module.exports={checkRequestBodyJobDefinition,verifydata,checkRequestBodyJobInstance};

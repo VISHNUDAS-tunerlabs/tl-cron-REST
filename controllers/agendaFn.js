@@ -25,7 +25,6 @@ const jobsReady = agenda._ready.then(async () => {
     .then((jobsArray) =>
       Promise.all(jobsArray.map((job) => defineJob(job, jobDefCollection, agenda)))
     );
-  console.log(agenda);
   await agenda.start();
   return jobDefCollection;
 });
@@ -54,5 +53,19 @@ const scheduleEvery=async(req,agenda)=>{
   return "Repeating Job Scheduled"
 }; 
 
+//shedule job for immediate exicution
+const scheduleNow=async(req,agenda)=>{
+  const name=req.body.name;
+  await agenda.now(name);
+  return "Immediate Job Scheduled"
+}
 
-module.exports={defineJob,agenda,jobsReady,scheduleEvery};
+//schedule job for once
+const scheduleOnce=async(req,agenda)=>{
+  const name=req.body.name;
+  const interval=req.body.interval;
+  await agenda.schedule(interval,name);
+  return "Job Scheduled for given Time"
+}
+
+module.exports={defineJob,agenda,jobsReady,scheduleEvery,scheduleNow,scheduleOnce};

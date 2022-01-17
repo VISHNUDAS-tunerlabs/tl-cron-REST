@@ -1,10 +1,20 @@
 const { jobs } = require('agenda/dist/agenda/jobs');
-const {jobsReady,agenda,defineJob,scheduleEvery}=require('./agendaFn');
-const{checkRequestBodyJobDefinition,verifydata}=require('./utils');
+const {jobsReady,agenda,defineJob,scheduleEvery,scheduleNow,scheduleOnce}=require('./agendaFn');
+const{checkRequestBodyJobDefinition,verifydata,checkRequestBodyJobInstance}=require('./utils');
 
 //controller for '/'
 const renderHome=(req,res)=>{
     res.status(200).json({"msg":"server running.."})
+};
+
+//API/jobs--list jobs
+const listJob=async(req,res)=>{
+    try{
+        const list=await jobsReady.then((jobs) => jobs.toArray());
+        res.status(200).json({"jobs":list});
+    }catch(err){
+        res.status(400).json({"error":err});
+    }  
 };
 
 //API/jobs
@@ -56,11 +66,68 @@ const updateJob=async(req,res)=>{
 
 //API/jobs/every
 const jobEvery=async(req,res)=>{
-    //check defined or not........todo
-    //check req body format.......todo
-    const every=await scheduleEvery(req,agenda);
-    res.status(200).json({"msg":every});
+    try{
+        job=req.body||{};
+        const jobs=await jobsReady;
+        const checkBody=await checkRequestBodyJobInstance(job);
+        if(checkBody.result==="green"){
+            const checkData=await verifydata(job,jobs);
+            if(checkData.result==="red"){
+                const every=await scheduleEvery(req,agenda);
+                res.status(200).json({"msg":every});
+            }else{
+                res.status(404).json({"msg":checkData.message});
+            }   
+        }else{
+                res.status(400).json({"msg":checkBody.message});
+        }
+    }catch(err){
+        res.status(404).json({"msg":err});
+    }
 };
 
+//API/jobs/now
+const jobNow=async(req,res)=>{
+    try{
+        job=req.body||{};
+        const jobs=await jobsReady;
+        if(req.body.name){
+            const checkData=await verifydata(job,jobs);
+            if(checkData.result==="red"){
+                const now=await scheduleNow(req,agenda);
+                res.status(200).json({"msg":now});
+            }else{
+                res.status(404).json({"msg":checkData.message});
+            }   
+        }else{
+                res.status(400).json({"msg":"invalid request body"});
+        }
+    }catch(err){
+        res.status(404).json({"msg":err});
+    }
 
-module.exports={renderHome,createJob,jobEvery,updateJob};
+};
+
+//API/jobs/once
+const jobOnce=async(req,res)=>{
+    try{
+        job=req.body||{};
+        const jobs=await jobsReady;
+        const checkBody=await checkRequestBodyJobInstance(job);
+        if(checkBody.result==="green"){
+            const checkData=await verifydata(job,jobs);
+            if(checkData.result==="red"){
+                const once=await scheduleOnce(req,agenda);
+                res.status(200).json({"msg":once});
+            }else{
+                res.status(404).json({"msg":checkData.message});
+            }   
+        }else{
+                res.status(400).json({"msg":checkBody.message});
+        }
+    }catch(err){
+        res.status(404).json({"msg":err});
+    }
+};
+
+module.exports={renderHome,createJob,jobEvery,updateJob,listJob,jobNow,jobOnce};
