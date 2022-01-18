@@ -5,17 +5,22 @@ Provide your job REST endpoint and it’s scheduling is offered as a service. In
 API Documentation
 -----------------
 
-##GET:
-
-api/jobs 
+## GET:/jobs 
 List all job definitions from the database.
 
-##POST:
+## POST:/jobs
 
-api/jobs :// Add new job definitions.
-		   	    // data required:{name,url,person_name,email}
-
-api/jobs/now : // Schedule a defined job for immediate call(now).  
+Add new job definitions.
+Data required:
+```javascript
+{
+	name,	//Name of the job to create instance.
+	url,	//Job url for post || get || put || delete etc.
+	owner,	//Name of the person or service which the instance belong.
+	email	//error reporting mai id
+}
+```
+## POST:/jobs/now  // Schedule a defined job for immediate call(now).  
 
 api/jobs/every : // Schedule job for specified intervals, for repeat calls.
 
