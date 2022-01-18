@@ -17,24 +17,43 @@ Data required:
 	name,	//Name of the job to create instance.
 	url,	//Job url for post || get || put || delete etc.
 	owner,	//Name of the person or service which the instance belong.
-	email	//error reporting mai id
+	email	//error reporting mail id.
 }
 ```
-## POST:/jobs/now  // Schedule a defined job for immediate call(now).  
+## POST:/jobs/now
+Schedule a defined job for immediate call(now).
+Data required:  
+```javascript
+{
+	name	//Name of the job to create instance which is already present in job definition.
+}
+```
+## POST:/jobs/every
+Schedule job for specified intervals, for repeat calls.
 
-api/jobs/every : // Schedule job for specified intervals, for repeat calls.
+## POST:/jobs/once
+Schedule job for a specified time.
+Data required:
+```javascript
+{
+	name, 	//Name of the job to create instance which is already present in job definition.
+	interval,	//When to shedule the job
+}
+```
+## POST:/jobs/cancel
+Cancels all scheduled jobs if no name specified. Else cancels job/jobs on specified name (does not remove definitions created by -POST api/jobs)
+Data:
+```javascript
+{
+	name //optional, if specified particular jobs are removed
+}
+```
 
-api/jobs/once :// Schedule job for a specified time.
-	
-api/jobs/cancel :// cancel all scheduled jobs if no name specified or cancels job/jobs on specified name (does not remove definitions created by -POST api/jobs)
+## PUT:/jobs/:jobname
+Update job definition.
 
-PUT:
-
-api/jobs/:jobname :// Update job definition.
-
-DELETE:
-
-api/jobs/:jobname :// Delete specified job’s definition and instances.
+## DELETE:/jobs/:jobname
+Delete specified job’s definition and instances.
 
 	
 			    
