@@ -1,5 +1,6 @@
 const Agenda=require('agenda');
 const configuration=require('../config');
+const needle=require('needle');
 
 
 //connect Agenda to default collection--agendaJobs
@@ -33,7 +34,16 @@ const jobsReady = agenda._ready.then(async () => {
 const defineJob=async(job,jobs,agenda)=>{
     const{name,url,method,owner,email}=job;
     agenda.define(name, async (job) => {
-        await console.log("job is working yeaaaa...");
+      //needle is being implemented here----------------------------------------------------------****************************
+        //await console.log("job is working yeaaaa...");
+        needle(method, url)
+        .then(function(response) {
+          return "good"
+        })
+        .catch(function(err) {
+          console.log('Call the locksmith!',owner,email);
+        })
+
     });
 
     await jobs.countDocuments({ name })
