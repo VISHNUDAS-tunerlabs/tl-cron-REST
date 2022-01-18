@@ -130,4 +130,20 @@ const jobOnce=async(req,res)=>{
     }
 };
 
-module.exports={renderHome,createJob,jobEvery,updateJob,listJob,jobNow,jobOnce};
+//API/cancel
+const jobCancel=async(req,res)=>{
+    try{
+        if(req.body.name){
+            const numCancel=await agenda.cancel({name:req.body.name});
+            numCancel>0 ? res.status(200).json({"msg":`${numCancel} job instace cancelled`}) : res.status(400).json({"msg":`no job instance exist in the specified name`});
+        }else{
+            const numCancel=await agenda.cancel();
+            res.status(200).json({"msg":`${numCancel} job instace cancelled to clean the collection`});
+        }
+    }catch(err){
+        res.status(404).json({"msg":err});
+    }
+    
+};
+
+module.exports={renderHome,createJob,jobEvery,updateJob,listJob,jobNow,jobOnce,jobCancel};
