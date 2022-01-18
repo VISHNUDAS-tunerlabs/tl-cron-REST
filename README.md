@@ -11,6 +11,7 @@ List all job definitions from the database.
 ## POST:/jobs
 
 Add new job definitions.
+
 Data required:
 ```javascript
 {
@@ -22,6 +23,7 @@ Data required:
 ```
 ## POST:/jobs/now
 Schedule a defined job for immediate call(now).
+
 Data required:  
 ```javascript
 {
@@ -33,6 +35,7 @@ Schedule job for specified intervals, for repeat calls.
 
 ## POST:/jobs/once
 Schedule job for a specified time.
+
 Data required:
 ```javascript
 {
@@ -42,6 +45,7 @@ Data required:
 ```
 ## POST:/jobs/cancel
 Cancels all scheduled jobs if no name specified. Else cancels job/jobs on specified name (does not remove definitions created by -POST api/jobs)
+
 Data:
 ```javascript
 {
