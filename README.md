@@ -1,15 +1,12 @@
 # tl-cron-REST
 Service to schedule jobs, Based on Agenda npm package. 
-tl-cron-rest
-
-Service to schedule jobs, Based on Agenda npm package. 
-
 Provide your job REST endpoint and it’s scheduling is offered as a service. Introduce a job url, name it, give contact name and email id of person related to the job. sl-agenda-rest will schedule the job for you on specified time and if any error occurs details will be shared to the specified email id.
 
 API Documentation
+-----------------
 
 GET:
-
+-----
 api/jobs :// List all job definitions from the database.
 
 POST:
