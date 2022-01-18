@@ -5,11 +5,12 @@ Provide your job REST endpoint and it’s scheduling is offered as a service. In
 API Documentation
 -----------------
 
-GET:
------
-api/jobs :// List all job definitions from the database.
+##GET:
 
-POST:
+api/jobs 
+List all job definitions from the database.
+
+##POST:
 
 api/jobs :// Add new job definitions.
 		   	    // data required:{name,url,person_name,email}
