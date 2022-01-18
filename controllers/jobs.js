@@ -146,4 +146,25 @@ const jobCancel=async(req,res)=>{
     
 };
 
-module.exports={renderHome,createJob,jobEvery,updateJob,listJob,jobNow,jobOnce,jobCancel};
+//API/delete
+const jobDelete=async(req,res)=>{
+    try{
+        const job=req.body || {};
+        if(req.params.jobname){
+            job.name=req.params.jobname;
+        };
+        const jobs=await jobsReady;
+        const checkdata=await verifydata(job,jobs);
+        if(checkdata.result==="red"){
+            await agenda.cancel({name:job.name});
+            await jobs.deleteOne({name:job.name});
+            res.status(200).json({"msg":"job removed from definition"})
+        }else{
+            res.status(400).json({"msg":"matching job definition not found"});
+        }
+    }catch(err){
+        res.status(400).json({"msg":"error: could't delete the job"});
+    }
+}
+
+module.exports={renderHome,createJob,jobEvery,updateJob,listJob,jobNow,jobOnce,jobCancel,jobDelete};

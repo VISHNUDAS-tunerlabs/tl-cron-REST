@@ -1,7 +1,7 @@
 const express=require('express');
 const { append } = require('vary');
 const router=express.Router();
-const {renderHome,createJob,jobEvery,updateJob,listJob,jobNow,jobOnce,jobCancel}=require('../controllers/jobs');
+const {renderHome,createJob,jobEvery,updateJob,listJob,jobNow,jobOnce,jobCancel,jobDelete}=require('../controllers/jobs');
 
 
 //API routes
@@ -13,6 +13,7 @@ router.put('/jobs/:jobname',updateJob);
 router.post('/jobs/now',jobNow);
 router.post('/jobs/once',jobOnce);
 router.post('/jobs/cancel',jobCancel);
+router.delete('/jobs/:jobname',jobDelete);
 
 
 module.exports=router;
