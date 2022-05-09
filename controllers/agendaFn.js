@@ -1,7 +1,7 @@
 const Agenda=require('agenda');
 const configuration=require('../config');
 const needle=require('needle');
-
+const {sendErrorMail}=require('./utils');
 
 //connect Agenda to default collection--agendaJobs
 const agenda=new Agenda({
@@ -42,6 +42,7 @@ const defineJob=async(job,jobs,agenda)=>{
         })
         .catch(function(err) {
           console.log('Call the locksmith!',owner,email);
+          sendErrorMail();
         })
 
     });

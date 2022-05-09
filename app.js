@@ -1,12 +1,12 @@
-const express=require('express');
-const bodyParser=require('body-parser');
-const configuration=require('./config');
-const router=require('./route/routes');
+const express = require('express');
+const bodyParser = require('body-parser');
+const configuration = require('./config');
+const router = require('./route/routes');
 //const Agenda=require('agenda');
-const {defineJob,agenda,jobsReady}=require('./controllers/agendaFn')
+const {defineJob,agenda,jobsReady} = require('./controllers/agendaFn')
 
-const app=express();
-const PORT=configuration.port;
+const app = express();
+const PORT = configuration.port;
 
 
 //middleware definition
@@ -19,7 +19,7 @@ jobsReady;
 
 
 //starting the server at port defined in config.js
-const server=app.listen(PORT,()=>{
+const server=app.listen( PORT,()=> {
     console.log(`server started at: http://localhost:${PORT}`);
 });
 
