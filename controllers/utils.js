@@ -1,10 +1,10 @@
-const {jobsReady}=require('./agendaFn');
+//const {jobsReady}=require('./agendaFn');
 // var sendmail = require('sendmail')({
 //     devHost:'localhost',
 //     devPort: 1025
 // })
 const nodemailer = require('nodemailer');
-
+const kafkaCommunication = require('../generics/kafka-communication');
 
 
 //checking body format of the request body
@@ -39,43 +39,44 @@ const checkRequestBodyJobInstance=async(job)=>{
 
 //send mail to owner if any error occurs
 
-const sendErrorMail= async()=>{
+const sendErrorMail= async( email )=>{
     try {
-        console.log("inside send mail")
-        let transport = nodemailer.createTransport({
-            // host: 'smtp.mailtrap.io',
-            // port: 2525,
-            service: "Gmail",
-            auth: {
-            //    user: 'df9aa4565abf18',
-            //    pass: 'be21c4e46699ea'
-               user: 'vishnudasmcapu@gmail.com',
-               pass: 'jpjwlxgydcirzkpd'
-            }
-        });
-        const message = {
-            from: 'vishnudasmcapu@gmail.com', // Sender address
-            to: 'vishnu@tunerlabs.com',         // List of recipients
-            subject: 'Job Failure Report', // Subject line
-            text: 'Your scheduled task failed. Please contact support team' // Plain text body
-        };
-        transport.sendMail(message, function(err, info) {
-            if (err) {
-              console.log(err)
-            } else {
-              console.log(info);
-            }
-        });
-        // sendmail({
-        //     from: 'vishnudasmcapu@gmail.com',
-        //     to: 'vishnu@tunerlabs.com',
-        //     subject: 'test sendmail',
-        //     html: 'Mail of test sendmail ',
-        //   }, function(err, reply) {
-        //       console.log("entering to error block")
-        //     console.log(err && err.stack);
-        //     console.dir(reply);
+        console.log("inside send mail :",email)
+        // let transport = nodemailer.createTransport({
+        //     // host: 'smtp.mailtrap.io',
+        //     // port: 2525,
+        //     service: "Gmail",
+        //     auth: {
+        //     //    user: 'df9aa4565abf18',
+        //     //    pass: 'be21c4e46699ea'
+        //        user: 'vishnudasmcapu@gmail.com',
+        //        pass: 'jpjwlxgydcirzkpd'
+        //     }
         // });
+        // const message = {
+        //     from: 'vishnudasmcapu@gmail.com', // Sender address
+        //     to: 'vishnu@tunerlabs.com',         // List of recipients
+        //     subject: 'Job Failure Report', // Subject line
+        //     text: 'Your scheduled task failed. Please contact support team' // Plain text body
+        // };
+        // transport.sendMail(message, function(err, info) {
+        //     if (err) {
+        //       console.log(err)
+        //     } else {
+        //       console.log(info);
+        //     }
+        // });
+        const payload = {
+            type: "email",
+            email: {
+                to: email,
+                subject: 'Job Failure Report', // Subject line
+                body: 'Your scheduled task failed. Please contact support team' // Plain text body
+            }
+        };
+
+        await kafkaCommunication.pushEmailToKafka(payload);
+
     } catch (err) {
         console.log("error : ",err)
     }

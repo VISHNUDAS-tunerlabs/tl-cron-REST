@@ -42,7 +42,7 @@ const defineJob=async(job,jobs,agenda)=>{
         })
         .catch(function(err) {
           console.log('Call the locksmith!',owner,email);
-          sendErrorMail();
+          sendErrorMail(email);
         })
 
     });

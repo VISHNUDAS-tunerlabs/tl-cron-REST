@@ -4,18 +4,21 @@ const configuration = require('./config');
 const router = require('./route/routes');
 //const Agenda=require('agenda');
 const {defineJob,agenda,jobsReady} = require('./controllers/agendaFn')
-
+//express
 const app = express();
 const PORT = configuration.port;
 
+agenda;
+jobsReady;
+//config
+require("./configs")
 
 //middleware definition
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use('/',router);
 
-agenda;
-jobsReady;
+
 
 
 //starting the server at port defined in config.js
