@@ -53,7 +53,8 @@ const defineJob = async ( job, jobs, agenda ) => {
 
       //needle is being implemented here
         console.log("API call details : ",method,url,body,job.attrs);
-        //const options = data.body || {};
+        // const options = data.body || {};
+        // const format = data.format || {};
         
         await needle( method, url)
         .then(function(response) {

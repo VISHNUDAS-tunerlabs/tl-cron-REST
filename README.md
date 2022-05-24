@@ -5,12 +5,12 @@ Provide your job REST endpoint and it’s scheduling is offered as a service. In
 API Documentation
 -----------------
 
-## GET:/jobs 
+## GET:/jobs/jobList
 List all job definitions from the database.
 
-## POST:/jobs
+## POST:/jobs/scheduleJob
 
-Add new job definitions.
+Add new job definitions. And schedule it.
 
 Data required:
 ```javascript
@@ -18,7 +18,9 @@ Data required:
 	name,	//Name of the job to create instance.
 	url,	//Job url for post || get || put || delete etc.
 	owner,	//Name of the person or service which the instance belong.
-	email	//error reporting mail id.
+	email,	//error reporting mail id.
+	method, //post,get,put,delete
+	scheduleType, //{ every, now, once } - specifies schedule type
 }
 ```
 ## POST:/jobs/now
@@ -44,12 +46,12 @@ Data required:
 }
 ```
 ## POST:/jobs/cancel
-Cancels all scheduled jobs if no name specified. Else cancels job/jobs on specified name (does not remove definitions created by -POST api/jobs)
+Cancels job/jobs on specified name (does not remove definitions created by -POST api/jobs)
 
 Data:
 ```javascript
 {
-	name //optional, if specified particular jobs are removed
+	name //name of the job
 }
 ```
 
