@@ -1,21 +1,27 @@
+require("dotenv").config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const configuration = require('./config');
 const router = require('./route/routes');
-//const Agenda=require('agenda');
-const {defineJob,agenda,jobsReady} = require('./controllers/agendaFn')
+const { agenda, jobsReady } = require('./services/agendaServices');
+//const expressValidator = require('express-validator');
+
+
 //express
 const app = express();
+//app.use(expressValidator());
 const PORT = configuration.port;
 
 agenda;
 jobsReady;
+
 //config
 require("./configs")
 
 //middleware definition
-app.use(bodyParser.json()); 
-app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(bodyParser.json({ limit: '50MB' }));
+app.use(bodyParser.urlencoded({ limit: '50MB', extended: false }));
 app.use('/',router);
 
 
