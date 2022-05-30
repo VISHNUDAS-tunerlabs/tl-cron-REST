@@ -46,7 +46,6 @@ const jobsReady = agenda._ready.then( async () => {
 
 //Defining agenda job . job details are added to the collection.
 const defineJob = async ( job, jobs, agenda ) => {
-    console.log("inside defining")
     let jobDef = job;
     const{ name, url, method, owner, email, body } = job;
     agenda.define( name, async (job) => {
@@ -68,7 +67,6 @@ const defineJob = async ( job, jobs, agenda ) => {
           console.log("error : ",err)
           let status = "failed"
           addExicutionLog( jobDef, status, err, job.attrs.lastRunAt );
-          //console.log('Call the locksmith!',owner,email);
           sendErrorMail(email);
         })
         
@@ -91,9 +89,8 @@ const scheduleEvery = async ( scheduleData, agenda ) => {
     try {
         const name = scheduleData.name;
         const interval = scheduleData.interval;
-        console.log("Interval : ",interval)
         const schedule = await agenda.every( interval, name );
-        console.log("schedule : ",schedule)
+        
         return ({
             message : responseMessage.SHEDULE_ONCE_SUCCESS,
             success : true,
@@ -112,7 +109,7 @@ const scheduleEvery = async ( scheduleData, agenda ) => {
 const scheduleNow = async (jobName, agenda ) => {
     try {
         const schedule = await agenda.now( jobName );
-        console.log("schedule : ",schedule)
+        
         return ({
             message : responseMessage.SHEDULE_ONCE_SUCCESS,
             success : true,
@@ -134,9 +131,8 @@ const scheduleOnce = async ( scheduleData, agenda ) => {
     try {
         const name = scheduleData.name;
         const interval = scheduleData.interval;
-        console.log("Interval : ",interval)
         const schedule = await agenda.schedule( interval, name );
-        console.log("schedule : ",schedule)
+        
         return ({
             message : responseMessage.SHEDULE_ONCE_SUCCESS,
             success : true,
