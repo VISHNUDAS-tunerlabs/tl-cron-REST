@@ -26,26 +26,22 @@ const createJobDefinition = async( jobData ) => {
         const jobDetails = _.omit( jobData, ['scheduleType', 'interval'] );
         const job = jobDetails || {};
         const jobs = await jobsReady;
-        console.log("jobs : ",jobs)
         const jobExists = await utils.checkForDuplicateJobDefinition( job, jobs );
-        console.log("jobExists : ",typeof(jobExists))
+
         if ( jobExists == 0 ) {
-            console.log("yea...")
+            
             const newJobData = await defineJob( job, jobs, agenda );
 
             if ( newJobData && newJobData.success ) {
                 const instanceType = ( jobData.scheduleType || '' ).toLowerCase();
 
                 if ( instanceType == common.ONCE && jobData.interval && jobData.interval != "" ) {
-                    console.log("define once instance")
                     const newInstance = await createJobInstanceForOnce( jobData.name, jobData.interval );
                     return newInstance;
                 } else if ( instanceType == common.EVERY  && jobData.interval && jobData.interval != "" ) {
-                    console.log("define every instance")
                     const newInstance = await createJobInstanceForEvery( jobData.name, jobData.interval );
                     return newInstance;
                 } else {
-                    console.log("define now instance")
                     const newInstance = await createJobInstanceForNow( jobData.name, jobData.interval );
                     return newInstance;
                 }          

@@ -88,7 +88,6 @@ const scheduleJob = async (req, res) => {
     
     try {
         let newJob = await jobsHelper.createJobDefinition( req.body );
-        console.log("newJob : ",newJob)
         res.status( newJob.status ).json( newJob );
     } catch (err) {
         res.status(400).json({
